@@ -6,6 +6,7 @@ from PyQt5.QtCore import *
 from SP import Ui_MainWindow
 from SP1 import Ui_Form
 import time,threading
+from PyQt5 import QtWidgets,QtCore,QtGui
 import socket
 import os
 import hashlib
@@ -35,7 +36,7 @@ class Client5(QThread):
 
     def run(self):
         print("222")
-        ip_port = ("10.100.124.88", 8000)  # 指定要发送的服务器地址和端口
+        ip_port = ("192.168.43.36", 8000)  # 指定要发送的服务器地址和端口
         try:
             print("socket connect!!")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 生成socket连接对象
@@ -131,6 +132,12 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.child = ChildForm()
         self.child.show()
 
+    def load_data(self, sp):
+        for i in range(1, 11):  # 模拟主程序加载过程
+            time.sleep(0.3)  # 加载数据
+            sp.showMessage("加载... {0}%".format(i * 10), QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
+            QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+
 class ChildForm(QWidget,Ui_Form):
     def __init__(self):
         super(QWidget,self).__init__()
@@ -177,6 +184,12 @@ class ChildForm(QWidget,Ui_Form):
 
 if __name__=="__main__":
     app=QApplication(sys.argv)
+    splash = QtWidgets.QSplashScreen(QtGui.QPixmap("images/time.jpg"))
+    splash.showMessage("加载... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
+    splash.show()  # 显示启动界面
+    QtWidgets.qApp.processEvents()  # 处理主进程事件
     win =MainForm()
+    win.load_data(splash)  # 加载数据
     win.show()
+    splash.finish(win)  # 隐藏启动界面
     sys.exit(app.exec_())
