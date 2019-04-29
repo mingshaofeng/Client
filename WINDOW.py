@@ -179,8 +179,7 @@ class ChildForm(QWidget,Ui_Form):
         self.step=lens
         self.progressBar.setValue(self.step)
 
-    #def timeNum(self,value):
-     #   self.progressBar.setValue(value)
+
 
 if __name__=="__main__":
     app=QApplication(sys.argv)
