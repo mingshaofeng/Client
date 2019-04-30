@@ -36,7 +36,7 @@ class Client5(QThread):
 
     def run(self):
         print("222")
-        ip_port = ("192.168.43.36", 8000)  # 指定要发送的服务器地址和端口
+        ip_port = ("127.0.0.1", 8000)  # 指定要发送的服务器地址和端口
         try:
             print("socket connect!!")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 生成socket连接对象

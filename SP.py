@@ -11,7 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setStyleSheet("#MainWindow{background-color: white}")
+
+        MainWindow.setStyleSheet("#MainWindow{border-image:url(images/time.jpg);}")
+        #MainWindow.setStyleSheet("#MainWindow{background-color: white}")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")

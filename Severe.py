@@ -8,7 +8,7 @@ import struct
 import hashlib
 import pymysql
 
-ip_port =("10.100.124.88", 8000)#定义监听地址和端口
+ip_port =("127.0.0.1", 8000)#定义监听地址和端口
 
 def socket_service():
     try:
@@ -83,7 +83,7 @@ def deal_data(conn,addr):
 
 
 def save_mysql(f_name,f_url,f_mark):
-    db = pymysql.connect(host='10.100.124.88', port=3306, user='MSF', password='1024161X', db='videos',
+    db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                          charset='utf8', )
     cursor = db.cursor()
     list_d = []

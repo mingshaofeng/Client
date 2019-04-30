@@ -22,7 +22,7 @@ class Table(QWidget):
 
 
 
-        db = pymysql.connect(host='10.100.124.88', port=3306, user='MSF', password='1024161X', db='videos',
+        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                              charset='utf8', )
         cur = db.cursor()
         cur.execute("select name,url,mark from video")
