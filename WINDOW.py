@@ -99,7 +99,7 @@ class MainForm(QMainWindow,Ui_MainWindow):
         #开发者信息
         self.action.setStatusTip("橘色的猫 清水 2019.4.8")
         #子窗口
-        self.addwinaction.triggered.connect(self.childShow)
+        #self.addwinaction.triggered.connect(self.childShow)
         #菜单点击事件，当点击打开管理的时候连接槽函数
         self.actionEdit.triggered.connect(self.EditShow)
         self.actionEdit.setStatusTip("视频文件后台管理")
