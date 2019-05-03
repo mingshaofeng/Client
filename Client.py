@@ -3,8 +3,8 @@ import sys
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from SP import Ui_MainWindow
-from SP1 import Ui_Form
+from Main_UI import Ui_MainWindow
+from UI2 import Ui_Form
 import time,threading
 from PyQt5 import QtWidgets,QtCore,QtGui
 import socket

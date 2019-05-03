@@ -6,76 +6,18 @@ from PyQt5 import QtGui,QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QFrame,QApplication,QDialog, QDialogButtonBox,
         QMessageBox,QVBoxLayout, QLineEdit,QTableWidgetItem,QTableWidget,QHBoxLayout)
+import qtawesome
+from UI3 import Table_UI
 
-class Table(QWidget):
+class Table(Table_UI):
     def __init__(self):
-        super().__init__()
+        super(Table_UI,self).__init__()
         self.initUI()
 
-    def initUI(self):
-        self.setWindowTitle("数据库列表")
-        self.resize(1000,800)
-
-
-        self.setWindowIcon(QtGui.QIcon('images/tubiao.ico'))
-
-
-
-
-        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
-                             charset='utf8', )
-        cur = db.cursor()
-        cur.execute("select name,url,mark from video")
-        data = cur.fetchall()
-
-
-        col_lst = [tup[0] for tup in cur.description]
-        row = len(data)
-        vol = len(data[0])
-
-
-        self.MyTable = QTableWidget(row,vol)
-        font = QtGui.QFont('微软雅黑',10)
-
-        self.MyTable.horizontalHeader().setFont(font)
-        self.MyTable.setHorizontalHeaderLabels(col_lst)
-        self.MyTable.verticalHeader().setVisible(False)
-        self.MyTable.setFrameShape(QFrame.NoFrame)
-        self.MyTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.MyTable.horizontalHeader().setStyleSheet('QHeaderView::section{background:skyblue}')
-
-        for i in range(row):
-            for j in range(vol):
-                temp_data = data[i][j]
-                data1 = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                self.MyTable.setItem(i, j, data1)
-
-        #编辑按钮
-        self.qle = QLineEdit()
-        buttonBox = QDialogButtonBox()
-        #增删查改四个按钮
-        addButton = buttonBox.addButton("&ADD",QDialogButtonBox.ActionRole)
-        okButton = buttonBox.addButton("&OK",QDialogButtonBox.ActionRole)
-        deleteButton = buttonBox.addButton("&DELETE",QDialogButtonBox.ActionRole)
-        inquireButton = buttonBox.addButton("&QUERY",QDialogButtonBox.ActionRole)
-
-        #设置按钮内字体样式
-        addButton.setFont(font)
-        okButton.setFont(font)
-        deleteButton.setFont(font)
-        inquireButton.setFont(font)
-
-        #垂直布局
-        layout = QVBoxLayout()
-        layout.addWidget(self.qle)
-        layout.addWidget(buttonBox)
-        layout.addWidget(self.MyTable)
-        self.setLayout(layout)
-
-        addButton.clicked.connect(partial(self.add_data,cur,db))#插入实现
-        okButton.clicked.connect(partial(self.up_data, cur, db,col_lst))#插入实现
-        deleteButton.clicked.connect(partial(self.del_data,cur,db))#删除实现
-        inquireButton.clicked.connect(partial(self.inq_data,db,cur))#查询实现
+        self.addButton.clicked.connect(partial(self.add_data,self.cur,self.db))#插入实现
+        self.okButton.clicked.connect(partial(self.up_data, self.cur, self.db,self.col_lst))#插入实现
+        self.deleteButton.clicked.connect(partial(self.del_data,self.cur,self.db))#删除实现
+        self.inquireButton.clicked.connect(partial(self.inq_data,self.db,self.cur))#查询实现
 
     # 添加空表格
     def add_data(self, cur, db):
