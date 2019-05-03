@@ -1,12 +1,9 @@
-import sys,pymysql
-from PyQt5.QtWidgets import *
+import sys
+
 from functools import partial
-from PyQt5.Qt import QWidget
-from PyQt5 import QtGui,QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QFrame,QApplication,QDialog, QDialogButtonBox,
-        QMessageBox,QVBoxLayout, QLineEdit,QTableWidgetItem,QTableWidget,QHBoxLayout)
-import qtawesome
+
+from PyQt5.QtWidgets import (QApplication,
+        QMessageBox,QTableWidgetItem)
 from UI3 import Table_UI
 
 class Table(Table_UI):
