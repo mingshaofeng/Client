@@ -96,7 +96,7 @@ def deal_data(conn,addr):
             else:
                 print('MD5验证失败')
             f_mark = 19
-            save_mysql(Str_name,path3,f_mark)
+            #save_mysql(Str_name,path3,f_mark)
         #conn.close()
         break
     f_url = bytes(path3,'utf-8')
@@ -107,7 +107,7 @@ def deal_data(conn,addr):
     conn.close()
 
 
-
+'''
 def save_mysql(f_name,f_url,f_mark):
     db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                          charset='utf8', )
@@ -119,6 +119,7 @@ def save_mysql(f_name,f_url,f_mark):
     cursor.execute('insert into video(name,url,mark) values(%s,%s,%s)', list_d)
     db.commit()
     db.close()
+'''
 
 if __name__=='__main__':
     # socket_service2()

@@ -95,6 +95,7 @@ class Client5(QThread):
         print(f_name)
         print(mark_num)
         print(f_url)
+
         s.close()
 
 class MainForm(QMainWindow,Ui_MainWindow):
@@ -119,6 +120,27 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.actionEdit.setStatusTip("视频文件后台管理")
         self.pushButton.clicked.connect(self.openimage)
         QApplication.processEvents()
+        self.pushButton_2.clicked.connect(self.save_mysql)
+
+
+    def save(self):
+        print(f_name)
+        print(f_url)
+        print(mark_num)
+
+
+    def save_mysql(self):
+        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
+                             charset='utf8', )
+        cursor = db.cursor()
+        list_d = []
+        list_d.append(f_name)
+        list_d.append(f_url)
+        list_d.append(mark_num)
+        cursor.execute('insert into video(name,url,mark) values(%s,%s,%s)', list_d)
+        db.commit()
+        db.close()
+
 
 
 
@@ -173,6 +195,8 @@ class MainForm(QMainWindow,Ui_MainWindow):
             time.sleep(0.3)  # 加载数据
             sp.showMessage("加载... {0}%".format(i * 10), QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
             QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+
+
 
 class ChildForm(QWidget,Ui_Form):
     def __init__(self):
