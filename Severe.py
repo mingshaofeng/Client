@@ -9,6 +9,24 @@ import hashlib
 import pymysql
 
 ip_port =("127.0.0.1", 8000)#定义监听地址和端口
+# ip_port2 =("127.0.0.1", 8001)#定义监听地址和端口
+#
+# def socket_service2():
+#     try:
+#         #定义socket连接对象
+#         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#         #解决端口重用问题
+#         s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+#         s.bind(ip_port2)#绑定地址
+#         s.listen(5)#等待最大客户数
+#     except socket.error as msg:
+#         print(msg)#输出错误信息
+#         exit(1)
+#     print('按钮监听开始...')
+#     conn1, addr1 = s.accept()  # 等待连接
+#     data = conn1.recv(1024)
+#     data = str(data,encoding='utf-8')
+#     print(data)
 
 def socket_service():
     try:
@@ -77,9 +95,17 @@ def deal_data(conn,addr):
                 print('文件已存放在：'+path2)
             else:
                 print('MD5验证失败')
-            save_mysql(Str_name,path3,path2)
-        conn.close()
+            f_mark = 19
+            save_mysql(Str_name,path3,f_mark)
+        #conn.close()
         break
+    f_url = bytes(path3,'utf-8')
+    f_mark=f_mark.to_bytes(length=2,byteorder='big',signed=False)
+    conn.send(fn)
+    conn.send(f_url)
+    conn.send(f_mark)
+    conn.close()
+
 
 
 def save_mysql(f_name,f_url,f_mark):
@@ -95,4 +121,5 @@ def save_mysql(f_name,f_url,f_mark):
     db.close()
 
 if __name__=='__main__':
+    # socket_service2()
     socket_service()

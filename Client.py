@@ -11,15 +11,18 @@ import socket
 import os
 import hashlib
 import sys
+import pymysql
 import struct
 import time,threading
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QMovie
 from Edit import Table
 
-global lens,fileName1
+global lens,fileName1,mark_num,f_url,f_name
 lens = 0
-
+mark_num=1
+f_url = ''
+f_name =''
 
 
 
@@ -35,7 +38,7 @@ class Client5(QThread):
 
 
     def run(self):
-        print("222")
+
         ip_port = ("127.0.0.1", 8000)  # 指定要发送的服务器地址和端口
         try:
             print("socket connect!!")
@@ -80,8 +83,19 @@ class Client5(QThread):
                 md5 = m.hexdigest()  # 获取MD５
                 s.send(md5.encode('utf-8'))  # 发送ｍｄ５
                 print('MD5:', md5)
-            s.close()
+            #s.close()
             break
+        global mark_num,f_url,f_name
+        f_name = s.recv(1024)
+        f_name = str(f_name,encoding='utf-8')
+        f_url = s.recv(2048)
+        f_url = str(f_url,encoding='utf-8')
+        mark_num=s.recv(1024)
+        mark_num=int.from_bytes(mark_num,byteorder='big',signed=False)
+        print(f_name)
+        print(mark_num)
+        print(f_url)
+        s.close()
 
 class MainForm(QMainWindow,Ui_MainWindow):
     def __init__(self):
@@ -103,8 +117,26 @@ class MainForm(QMainWindow,Ui_MainWindow):
         #菜单点击事件，当点击打开管理的时候连接槽函数
         self.actionEdit.triggered.connect(self.EditShow)
         self.actionEdit.setStatusTip("视频文件后台管理")
+        self.pushButton.clicked.connect(self.openimage)
+        QApplication.processEvents()
 
 
+
+    def socket111(self,data):
+        # 创建 socket 对象
+        ip_port = ("127.0.0.1", 8001)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(ip_port)  # 连接
+        s.send(data)
+
+
+    def openimage(self):
+        imgName, imgType = QFileDialog.getOpenFileName(self, "打开图片", "", "*.jpg;;*.png;;All Files(*)")
+        jpg = QtGui.QPixmap(imgName)
+        self.label_3.setPixmap(jpg)
+        self.label_3.setScaledContents(True)
+
+        self.label_5.setText(f_name)
 
 
     def openFile(self):
@@ -113,12 +145,16 @@ class MainForm(QMainWindow,Ui_MainWindow):
                                                           "All Files (*);;Text Files (*.txt)")
         print(fileName1, filetype)
         self.statusBar.showMessage(fileName1)
+        self.label_2.setText(fileName1)
         self.work = Client5(fileName1)
+        QApplication.processEvents()
         if(fileName1):
             self.childShow()
             QApplication.processEvents()
             self.work.start()
             print( "work start")
+
+
 
 
     def EditShow(self):
