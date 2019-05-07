@@ -140,12 +140,28 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.label_4.setFont(font)
         self.label_2.setFont(font)
         self.label_3.setFont(font)
+        self.label_3.setAlignment(Qt.AlignCenter)
         self.centralwidget.setStyleSheet("#centralwidget{background-color: white}")
         self.setWindowOpacity(0.9)
         self.pushButton.setStyleSheet('''QPushButton{background:#F76677;border-radius:15px;}
 QPushButton:hover{background:red;}''')
         self.pushButton_2.setStyleSheet('''QPushButton{background:#F7D674;border-radius:15px;}
 QPushButton:hover{background:yellow;}''')
+        self.widget.setStyleSheet('''
+        Qwidget#widget{
+        color:#232C51;
+        background:white;
+        border-top:1px solid darkGray;
+        border-bottom:1px solid darkGray;
+        border-right:1px solid darkGray;
+        border-top-right-radius:10px;
+        border-bottom-right-radius:10px;
+        border-top-left-radius:10px;
+        border-bottom-left-radius:10px;
+        }
+        ''')
+
+
 
 
 
@@ -278,6 +294,11 @@ class ChildForm(QWidget,Ui_Form):
             return
         self.step=lens
         self.progressBar.setValue(self.step)
+        self.progressBar.setStyleSheet('''
+        QProgressBar::chunk {
+            background-color: pink;
+            }
+        ''')
 
 
 
