@@ -123,6 +123,19 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.save_mysql)
 
 
+        font = QtGui.QFont()
+        #字体
+        font.setFamily('楷体')
+        font.setBold(True)
+        font.setPointSize(13)
+        font.setWeight(75)
+        self.label_5.setFont(font)
+        self.label.setFont(font)
+        self.label_4.setFont(font)
+        self.label_2.setFont(font)
+        self.label_3.setFont(font)
+
+
     def find_num(self):
         db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                              charset='utf8', )
