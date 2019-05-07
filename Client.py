@@ -118,15 +118,26 @@ class MainForm(QMainWindow,Ui_MainWindow):
         #菜单点击事件，当点击打开管理的时候连接槽函数
         self.actionEdit.triggered.connect(self.EditShow)
         self.actionEdit.setStatusTip("视频文件后台管理")
-        self.pushButton.clicked.connect(self.openimage)
+        self.pushButton.clicked.connect(self.find_num)
         QApplication.processEvents()
         self.pushButton_2.clicked.connect(self.save_mysql)
 
 
-    def save(self):
-        print(f_name)
-        print(f_url)
-        print(mark_num)
+    def find_num(self):
+        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
+                             charset='utf8', )
+        cursor = db.cursor()
+        num = []
+        num.append(mark_num)
+        cursor.execute('select action_name from ucf101 where id = %s',num)
+        data_num = cursor.fetchone()
+        data_num = ' '.join(data_num)
+        print(data_num)
+        imagName = 'ucf101/'+str(mark_num)+'.jpg'
+        self.label_5.setText(data_num)
+        jpg = QtGui.QPixmap(imagName)
+        self.label_3.setPixmap(jpg)
+        self.label_3.setScaledContents(True)
 
 
     def save_mysql(self):
@@ -250,5 +261,6 @@ if __name__=="__main__":
     win =MainForm()
     win.load_data(splash)  # 加载数据
     win.show()
+    #win.find_num()
     splash.finish(win)  # 隐藏启动界面
     sys.exit(app.exec_())
