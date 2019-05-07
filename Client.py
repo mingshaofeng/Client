@@ -127,13 +127,16 @@ class MainForm(QMainWindow,Ui_MainWindow):
         #字体
         font.setFamily('楷体')
         font.setBold(True)
-        font.setPointSize(13)
+        #设置字体大小
+        font.setPointSize(10)
         font.setWeight(75)
         self.label_5.setFont(font)
         self.label.setFont(font)
         self.label_4.setFont(font)
         self.label_2.setFont(font)
         self.label_3.setFont(font)
+
+
 
 
     def find_num(self):
