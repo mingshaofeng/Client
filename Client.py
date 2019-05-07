@@ -122,19 +122,32 @@ class MainForm(QMainWindow,Ui_MainWindow):
         QApplication.processEvents()
         self.pushButton_2.clicked.connect(self.save_mysql)
 
-
+        #qss进行布局优化
         font = QtGui.QFont()
+        font_max = QtGui.QFont()
         #字体
         font.setFamily('楷体')
+        font_max.setFamily('Calibri')
+        font_max.setBold(True)
         font.setBold(True)
         #设置字体大小
         font.setPointSize(10)
         font.setWeight(75)
-        self.label_5.setFont(font)
+        font_max.setPointSize(15)
+        font_max.setWeight(80)
+        self.label_5.setFont(font_max)
         self.label.setFont(font)
         self.label_4.setFont(font)
         self.label_2.setFont(font)
         self.label_3.setFont(font)
+        self.centralwidget.setStyleSheet("#centralwidget{background-color: white}")
+        self.setWindowOpacity(0.9)
+        self.pushButton.setStyleSheet('''QPushButton{background:#F76677;border-radius:15px;}
+QPushButton:hover{background:red;}''')
+        self.pushButton_2.setStyleSheet('''QPushButton{background:#F7D674;border-radius:15px;}
+QPushButton:hover{background:yellow;}''')
+
+
 
 
 
