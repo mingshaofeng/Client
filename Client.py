@@ -286,6 +286,7 @@ QPushButton:hover{background:yellow;}''')
         self.pushButton_2.setStyleSheet('''QPushButton{background:#DDA0DD;border-radius:15px;}
         QPushButton:hover{background:Orchid;}''')
 
+
     def qss_4(self):
         self.centralwidget.setStyleSheet('''#centralwidget{
                         background-color: LightSlateGray;

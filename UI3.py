@@ -109,8 +109,18 @@ class Table_UI(QWidget):
         self.setStyleSheet("#win{background-color: white}")#设置背景为白色
         self.setWindowOpacity(0.9)#设置透明度
         #self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
-        #self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         layout.setSpacing(0)
+        self.setStyleSheet('''
+        #win{
+            background:white;
+            border-top:1px solid white;
+            border-bottom:1px solid white;
+            border-left:1px solid white;
+            border-top-left-radius:10px;
+            border-bottom-left-radius:10px;
+        }
+        ''')
 
 
 

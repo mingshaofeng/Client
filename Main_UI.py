@@ -97,7 +97,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "视频人体行为识别"))
         MainWindow.setWindowIcon(QtGui.QIcon('images/tubiao.ico'))
         self.pushButton.setText(_translate("MainWindow", "开始识别"))
         self.pushButton_2.setText(_translate("MainWindow", "保存"))
