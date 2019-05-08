@@ -121,6 +121,10 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.pushButton.clicked.connect(self.find_num)
         QApplication.processEvents()
         self.pushButton_2.clicked.connect(self.save_mysql)
+        self.action_pink.triggered.connect(self.qss_1)
+        self.action_blue.triggered.connect(self.qss_2)
+        self.action_green.triggered.connect(self.qss_3)
+        self.action_black.triggered.connect(self.qss_4)
 
         #qss进行布局优化
         font = QtGui.QFont()
@@ -252,7 +256,44 @@ QPushButton:hover{background:yellow;}''')
             sp.showMessage("加载... {0}%".format(i * 10), QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
             QtWidgets.qApp.processEvents()  # 允许主进程处理事件
 
+    def qss_1(self):
+        self.centralwidget.setStyleSheet('''#centralwidget{
+            background-color: LightPink;
+        
+            }''')
+        self.pushButton.setStyleSheet('''QPushButton{background:#FF6347;border-radius:15px;}
+        QPushButton:hover{background:red;}''')
+        self.pushButton_2.setStyleSheet('''QPushButton{background:#3CB371;border-radius:15px;}
+        QPushButton:hover{background:ForestGreen;}''')
 
+    def qss_2(self):
+        self.centralwidget.setStyleSheet('''#centralwidget{
+                background-color: LightBLue;
+
+                }''')
+        self.pushButton.setStyleSheet('''QPushButton{background:#FF69B4;border-radius:15px;}
+        QPushButton:hover{background:red;}''')
+        self.pushButton_2.setStyleSheet('''QPushButton{background:#6495ED;border-radius:15px;}
+        QPushButton:hover{background:RoyalBlue;}''')
+
+    def qss_3(self):
+        self.centralwidget.setStyleSheet('''#centralwidget{
+                        background-color: LightSeaGreen;
+
+                        }''')
+        self.pushButton.setStyleSheet('''QPushButton{background:#F4A460;border-radius:15px;}
+        QPushButton:hover{background:DarkOrange;}''')
+        self.pushButton_2.setStyleSheet('''QPushButton{background:#DDA0DD;border-radius:15px;}
+        QPushButton:hover{background:Orchid;}''')
+
+    def qss_4(self):
+        self.centralwidget.setStyleSheet('''#centralwidget{
+                        background-color: LightSlateGray;
+                        }''')
+        self.pushButton.setStyleSheet('''QPushButton{background:#F0F8FF;border-radius:15px;}
+        QPushButton:hover{background:DarkOrange;}''')
+        self.pushButton_2.setStyleSheet('''QPushButton{background:#9370DB;border-radius:15px;}
+        QPushButton:hover{background:Orchid;}''')
 
 class ChildForm(QWidget,Ui_Form):
     def __init__(self):
@@ -299,6 +340,8 @@ class ChildForm(QWidget,Ui_Form):
             background-color: pink;
             }
         ''')
+        
+
 
 
 
@@ -311,6 +354,6 @@ if __name__=="__main__":
     win =MainForm()
     win.load_data(splash)  # 加载数据
     win.show()
-    #win.find_num()
+    #win.qss_4()
     splash.finish(win)  # 隐藏启动界面
     sys.exit(app.exec_())
