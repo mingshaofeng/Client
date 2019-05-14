@@ -27,7 +27,7 @@ class Table_UI(QWidget):
         self.db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                              charset='utf8', )
         self.cur = self.db.cursor()
-        self.cur.execute("select name,url,mark from video")
+        self.cur.execute("select name,url,mark,action from video")
         self.data = self.cur.fetchall()
 
 
@@ -56,7 +56,7 @@ class Table_UI(QWidget):
         self.search_icon = QtWidgets.QLabel(chr(0xf002) + ' ' + '搜索  ')
         self.search_icon.setFont(qtawesome.font('fa', 16))
         self.qle = QLineEdit()
-        self.qle.setPlaceholderText("输入视频名称、动作数字标签，QUERY键进行搜索")
+        self.qle.setPlaceholderText("输入视频名称、动作数字标签或动作名称，QUERY键进行搜索")
         buttonBox = QDialogButtonBox()
         #增删查改四个按钮
         self.addButton = buttonBox.addButton("&ADD",QDialogButtonBox.ActionRole)

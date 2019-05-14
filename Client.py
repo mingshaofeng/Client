@@ -18,7 +18,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QMovie
 from Edit import Table
 
-global lens,fileName1,mark_num,f_url,f_name
+global lens,fileName1,mark_num,f_url,f_name,data_num
 lens = 0
 mark_num=1
 f_url = ''
@@ -39,6 +39,7 @@ class Client5(QThread):
 
     def run(self):
 
+        #ip_port = ("192.168.69.68", 8000)  # 指定要发送的服务器地址和端口
         ip_port = ("127.0.0.1", 8000)  # 指定要发送的服务器地址和端口
         try:
             print("socket connect!!")
@@ -112,13 +113,14 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.actionOpen.triggered.connect(self.openFile)
         self.actionOpen.setStatusTip('导入视频')
         #开发者信息
-        self.action.setStatusTip("橘色的猫 清水 2019.4.8")
+        self.action.setStatusTip("北京工商大学 明少锋 2019.4.8")
         #子窗口
         #self.addwinaction.triggered.connect(self.childShow)
         #菜单点击事件，当点击打开管理的时候连接槽函数
         self.actionEdit.triggered.connect(self.EditShow)
         self.actionEdit.setStatusTip("视频文件后台管理")
-        self.pushButton.clicked.connect(self.find_num)
+        #self.pushButton.clicked.connect(self.find_num)
+        self.pushButton.clicked.connect(self.socket_recognition)
         QApplication.processEvents()
         self.pushButton_2.clicked.connect(self.save_mysql)
         self.action_pink.triggered.connect(self.qss_1)
@@ -179,7 +181,9 @@ QPushButton:hover{background:yellow;}''')
         num = []
         num.append(mark_num)
         cursor.execute('select action_name from ucf101 where id = %s',num)
+        global data_num
         data_num = cursor.fetchone()
+
         data_num = ' '.join(data_num)
         print(data_num)
         imagName = 'ucf101/'+str(mark_num)+'.jpg'
@@ -197,19 +201,24 @@ QPushButton:hover{background:yellow;}''')
         list_d.append(f_name)
         list_d.append(f_url)
         list_d.append(mark_num)
-        cursor.execute('insert into video(name,url,mark) values(%s,%s,%s)', list_d)
+        list_d.append(data_num)
+        print(list_d)
+        cursor.execute('insert into video(name,url,mark,action) values(%s,%s,%s,%s)', list_d)
         db.commit()
         db.close()
 
 
 
 
-    def socket111(self,data):
+    def socket_recognition(self):
         # 创建 socket 对象
         ip_port = ("127.0.0.1", 8001)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(ip_port)  # 连接
-        s.send(data)
+        data_1='第二次传输成功'
+        data_1=bytes(data_1,'utf-8')
+        s.send(data_1)
+
 
 
     def openimage(self):
@@ -224,7 +233,7 @@ QPushButton:hover{background:yellow;}''')
     def openFile(self):
         global fileName1
         fileName1, filetype = QFileDialog.getOpenFileName(self, "选取文件", "/Users/MING/Desktop",
-                                                          "All Files (*);;Text Files (*.txt)")
+                                                          "AVI video (*.avi)")
         print(fileName1, filetype)
         self.statusBar.showMessage(fileName1)
         self.label_2.setText(fileName1)

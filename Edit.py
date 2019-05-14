@@ -40,7 +40,7 @@ class Table(Table_UI):
             tup_va_lst.append((cl, va))
 
         # 插入语句
-        cur.execute("INSERT INTO video(name,url,mark) VALUES (%s,%s,%s)", value_lst)
+        cur.execute("INSERT INTO video(name,url,mark,action) VALUES (%s,%s,%s,%s)", value_lst)
 
         db.commit()
 
@@ -68,7 +68,8 @@ class Table(Table_UI):
         # 模糊查询
         if len(txt) != 0:
             cur.execute(
-                "SELECT name,url,mark FROM video WHERE name LIKE '%" + txt + "%' or mark LIKE '%" + txt + "%'")  #
+                "SELECT name,url,mark,action FROM video WHERE name LIKE '%" + txt + "%' or mark LIKE '%" + txt +
+                "%' or action LIKE '%" + txt + "%'")  #
             # CONCAT(
             # 'f_id','f_area','f_place','f_AQI','f_AQItype','f_PM25per1h'),concat(concat('%','#txt'),'%')
 
@@ -89,7 +90,7 @@ class Table(Table_UI):
         # 空输入返回原先数据表格
         else:
             self.MyTable.clearContents()
-            cur.execute("SELECT name,url,mark FROM video")
+            cur.execute("SELECT name,url,mark,action FROM video")
             data_y = cur.fetchall()
 
             row_5 = len(data_y)
