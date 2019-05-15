@@ -39,8 +39,8 @@ class Client5(QThread):
 
     def run(self):
 
-        #ip_port = ("192.168.69.68", 8000)  # 指定要发送的服务器地址和端口
-        ip_port = ("127.0.0.1", 8000)  # 指定要发送的服务器地址和端口
+        ip_port = ("192.168.69.68", 8000)  # 指定要发送的服务器地址和端口
+        #ip_port = ("127.0.0.1", 8000)  # 指定要发送的服务器地址和端口
         try:
             print("socket connect!!")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 生成socket连接对象
@@ -86,12 +86,13 @@ class Client5(QThread):
                 print('MD5:', md5)
             #s.close()
             break
+        fileinfo_size_2 = struct.calcsize('2048sq')
         global mark_num,f_url,f_name
-        f_name = s.recv(1024)
+        f_name = s.recv(fileinfo_size)
         f_name = str(f_name,encoding='utf-8')
-        f_url = s.recv(2048)
+        f_url = s.recv(fileinfo_size)
         f_url = str(f_url,encoding='utf-8')
-        mark_num=s.recv(1024)
+        mark_num=s.recv(fileinfo_size)
         mark_num=int.from_bytes(mark_num,byteorder='big',signed=False)
         print(f_name)
         print(mark_num)
@@ -218,7 +219,7 @@ QPushButton:hover{background:yellow;}''')
 
     def socket_recognition(self):
         # 创建 socket 对象
-        ip_port = ("127.0.0.1", 8001)
+        ip_port = ("192.168.69.68", 8001)
         fileinfo_size = struct.calcsize('128sq')
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(ip_port)  # 连接
@@ -228,12 +229,13 @@ QPushButton:hover{background:yellow;}''')
             data_1='2'
         data_1=bytes(data_1,'utf-8')
         s.send(data_1)
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
         data_2=s.recv(fileinfo_size)
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
         data_2=str(data_2,encoding='utf-8')
         data_2=int(data_2)
         print(data_2)
         print('*******************')
-        print(mark_num)
         db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                              charset='utf8', )
         cursor = db.cursor()
@@ -241,6 +243,8 @@ QPushButton:hover{background:yellow;}''')
         num.append(data_2)
         cursor.execute('select action_name from ucf101 where id = %s', num)
         global data_num
+        global mark_num
+        mark_num = data_2
         data_num = cursor.fetchone()
 
         data_num = ' '.join(data_num)

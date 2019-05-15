@@ -8,7 +8,7 @@ import os,shutil
 import struct
 import hashlib
 
-ip_port2 =("127.0.0.1", 8001)#定义监听地址和端口
+ip_port2 =("192.168.69.68", 8001)#定义监听地址和端口
 
 def socket_service2():
     try:
@@ -32,16 +32,16 @@ def deal_data(conn1,addr1):
         data = ''
         data = conn1.recv(fileinfo_size)
         data = str(data,encoding='utf-8')
+
         print(data)
         if(data=='1'):
-            #os.system('bash xxx.sh')
-            file = open('a.txt', 'w')
-            data1 = 5
-            data1 = str(data1)
-            file.write(data1)
-            file.close()
+            os.system('bash xxx.sh')
+            os.system('bash x3.sh')
+        else:
+            pass
 
-        file_txt = open('a.txt',mode='r')
+
+        file_txt = open('video_label.txt',mode='r')
         content =file_txt.read(20)
         print(content)
         content = bytes(content,'utf-8')
