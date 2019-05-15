@@ -1,4 +1,4 @@
-#--coding=utf-8--
+# -*- coding:utf-8 -*-
 
 import socket
 import threading
@@ -22,10 +22,31 @@ def socket_service2():
         print(msg)#输出错误信息
         exit(1)
     print('按钮监听开始...')
-    conn1, addr1 = s.accept()  # 等待连接
-    data = conn1.recv(1024)
-    data = str(data,encoding='utf-8')
-    print(data)
+    while 1:
+        conn1, addr1 = s.accept()  # 等待连接
+        #多线程开始
+        t = threading.Thread(target=deal_data,args=(conn1,addr1))
+        t.start()
+def deal_data(conn1,addr1):
+        fileinfo_size = struct.calcsize('128sq')
+        data = ''
+        data = conn1.recv(fileinfo_size)
+        data = str(data,encoding='utf-8')
+        print(data)
+        if(data=='1'):
+            #os.system('bash xxx.sh')
+            file = open('a.txt', 'w')
+            data1 = 5
+            data1 = str(data1)
+            file.write(data1)
+            file.close()
+
+        file_txt = open('a.txt',mode='r')
+        content =file_txt.read(20)
+        print(content)
+        content = bytes(content,'utf-8')
+        conn1.send(content)
+        conn1.close()
 
 if __name__=='__main__':
     # socket_service2()

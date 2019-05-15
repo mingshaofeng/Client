@@ -128,6 +128,10 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.action_green.triggered.connect(self.qss_3)
         self.action_black.triggered.connect(self.qss_4)
 
+        #单选按钮默认选择flow
+        self.radioButton.setChecked(True)
+
+
         #qss进行布局优化
         font = QtGui.QFont()
         font_max = QtGui.QFont()
@@ -146,6 +150,7 @@ class MainForm(QMainWindow,Ui_MainWindow):
         self.label_4.setFont(font)
         self.label_2.setFont(font)
         self.label_3.setFont(font)
+        self.label_6.setFont(font)
         self.label_3.setAlignment(Qt.AlignCenter)
         self.centralwidget.setStyleSheet("#centralwidget{background-color: white}")
         self.setWindowOpacity(0.9)
@@ -166,6 +171,7 @@ QPushButton:hover{background:yellow;}''')
         border-bottom-left-radius:10px;
         }
         ''')
+        self.qss_2()
 
 
 
@@ -213,11 +219,39 @@ QPushButton:hover{background:yellow;}''')
     def socket_recognition(self):
         # 创建 socket 对象
         ip_port = ("127.0.0.1", 8001)
+        fileinfo_size = struct.calcsize('128sq')
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(ip_port)  # 连接
-        data_1='第二次传输成功'
+        if self.radioButton.isChecked()==True:
+            data_1 = '1'
+        else:
+            data_1='2'
         data_1=bytes(data_1,'utf-8')
         s.send(data_1)
+        data_2=s.recv(fileinfo_size)
+        data_2=str(data_2,encoding='utf-8')
+        data_2=int(data_2)
+        print(data_2)
+        print('*******************')
+        print(mark_num)
+        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
+                             charset='utf8', )
+        cursor = db.cursor()
+        num = []
+        num.append(data_2)
+        cursor.execute('select action_name from ucf101 where id = %s', num)
+        global data_num
+        data_num = cursor.fetchone()
+
+        data_num = ' '.join(data_num)
+        print(data_num)
+        imagName = 'ucf101/' + str(data_2) + '.jpg'
+        self.label_5.setText(data_num)
+        jpg = QtGui.QPixmap(imagName)
+        self.label_3.setPixmap(jpg)
+        self.label_3.setScaledContents(True)
+
+
 
 
 

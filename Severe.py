@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 #接收端
 import socket
 import threading
@@ -78,7 +79,7 @@ def deal_data(conn,addr):
                 print('文件已存放在：'+path2)
             else:
                 print('MD5验证失败')
-            f_mark = 1
+            f_mark = 3
             #save_mysql(Str_name,path3,f_mark)
         #conn.close()
         break
