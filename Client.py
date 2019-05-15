@@ -173,6 +173,9 @@ QPushButton:hover{background:yellow;}''')
         }
         ''')
         self.qss_2()
+        self.gif1 = QMovie('images/happy.gif')
+        self.label_3.setMovie(self.gif1)
+        self.gif1.start()
 
 
 
@@ -218,6 +221,10 @@ QPushButton:hover{background:yellow;}''')
 
 
     def socket_recognition(self):
+        self.gif2 = QMovie('images/load.gif')
+        self.label_3.setMovie(self.gif2)
+        self.gif2.start()
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
         # 创建 socket 对象
         ip_port = ("192.168.69.68", 8001)
         fileinfo_size = struct.calcsize('128sq')
@@ -228,6 +235,7 @@ QPushButton:hover{background:yellow;}''')
         else:
             data_1='2'
         data_1=bytes(data_1,'utf-8')
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
         s.send(data_1)
         QtWidgets.qApp.processEvents()  # 允许主进程处理事件
         data_2=s.recv(fileinfo_size)

@@ -131,7 +131,7 @@ class Ui_MainWindow(object):
         self.action.setText(_translate("MainWindow", "开发者信息"))
         self.addwinaction.setText(_translate("MainWindow", "添加窗体"))
         self.addwinaction.setShortcut(_translate("MainWindow", "Ctrl+Z"))
-        self.actionEdit.setText(_translate("MainWindow", "管理"))
+        self.actionEdit.setText(_translate("MainWindow", "数据管理"))
         self.actionEdit.setToolTip(_translate("MainWindow", "视频文件管理"))
         self.actionEdit.setShortcut(_translate("MainWindow", "Ctrl+E"))
         self.action_pink.setText(_translate("MainWindow", "樱花粉"))
