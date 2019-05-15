@@ -18,11 +18,13 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QMovie
 from Edit import Table
 
-global lens,fileName1,mark_num,f_url,f_name,data_num
+global lens,fileName1,mark_num,f_url,f_name,data_num,data_1,data_2
 lens = 0
 mark_num=1
 f_url = ''
 f_name =''
+data_1=''
+data_2=''
 
 
 
@@ -219,35 +221,34 @@ QPushButton:hover{background:yellow;}''')
 
 
 
-
-    def socket_recognition(self):
-        self.gif2 = QMovie('images/load.gif')
-        self.label_3.setMovie(self.gif2)
-        self.gif2.start()
-        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+    def SEND(self):
         # 创建 socket 对象
         ip_port = ("192.168.69.68", 8001)
         fileinfo_size = struct.calcsize('128sq')
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(ip_port)  # 连接
-        if self.radioButton.isChecked()==True:
+        if self.radioButton.isChecked() == True:
+            global data_1
             data_1 = '1'
         else:
-            data_1='2'
-        data_1=bytes(data_1,'utf-8')
-        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+
+            data_1 = '2'
+
+        data_1 = bytes(data_1, 'utf-8')
+
         s.send(data_1)
-        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
-        data_2=s.recv(fileinfo_size)
-        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
-        data_2=str(data_2,encoding='utf-8')
-        data_2=int(data_2)
+        global data_2
+        data_2 = s.recv(fileinfo_size)
+        data_2 = str(data_2, encoding='utf-8')
+        data_2 = int(data_2)
         print(data_2)
         print('*******************')
+
         db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
                              charset='utf8', )
         cursor = db.cursor()
         num = []
+        print(data_2)
         num.append(data_2)
         cursor.execute('select action_name from ucf101 where id = %s', num)
         global data_num
@@ -262,6 +263,70 @@ QPushButton:hover{background:yellow;}''')
         jpg = QtGui.QPixmap(imagName)
         self.label_3.setPixmap(jpg)
         self.label_3.setScaledContents(True)
+
+
+    def socket_recognition(self):
+
+        self.gif2 = QMovie('images/bike.gif')
+        self.label_3.setMovie(self.gif2)
+        self.gif2.start()
+
+        T = threading.Thread(target=self.SEND, )
+        T.start()
+        QtWidgets.qApp.processEvents()  # 处理主进程事件
+        '''
+        # 创建 socket 对象
+        ip_port = ("192.168.69.68", 8001)
+        fileinfo_size = struct.calcsize('128sq')
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(ip_port)  # 连接
+        if self.radioButton.isChecked()==True:
+            global data_1
+            data_1 = '1'
+        else:
+
+            data_1='2'
+
+        data_1=bytes(data_1,'utf-8')
+        #T = threading.Thread(target=self.SEND,args=(s))
+        #T.start()
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+
+        s.send(data_1)
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+        data_2=s.recv(fileinfo_size)
+        QtWidgets.qApp.processEvents()  # 允许主进程处理事件
+        data_2=str(data_2,encoding='utf-8')
+        data_2=int(data_2)
+        print(data_2)
+        print('*******************')
+        
+        
+
+        db = pymysql.connect(host='127.0.0.1', port=3306, user='MSF', password='1024161X', db='videos',
+                             charset='utf8', )
+        cursor = db.cursor()
+        num = []
+        print(data_2)
+        num.append(data_2)
+        cursor.execute('select action_name from ucf101 where id = %s', num)
+        global data_num
+        global mark_num
+        mark_num = data_2
+        print('++++++')
+        print(data_2)
+        print('--------')
+        data_num = cursor.fetchone()
+
+        data_num = ' '.join(data_num)
+        print(data_num)
+        imagName = 'ucf101/' + str(data_2) + '.jpg'
+        self.label_5.setText(data_num)
+        jpg = QtGui.QPixmap(imagName)
+        self.label_3.setPixmap(jpg)
+        self.label_3.setScaledContents(True)
+        
+        '''
 
 
 
